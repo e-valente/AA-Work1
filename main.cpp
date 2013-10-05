@@ -7,7 +7,7 @@ using namespace std;
 //ex: statesMap["Acre"] devolve 0
 map<string, int> statesMap;
 
-//grafo que contera aos estados e fronteiras
+//grafo que contera os estados e fronteiras
 //ex: statesBorders[3].begin() -> retorna um iterador
 //para o primeiro estado que faz fronteira com o
 //estado 3 (zero)
