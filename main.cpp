@@ -7,6 +7,7 @@ using namespace std;
 //para o primeiro estado que faz fronteira com o
 //estado 3 (zero)
 Graph statesBorders;
+map<string, int> statesMap;
 
 int main()
 {

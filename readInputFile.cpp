@@ -9,7 +9,7 @@ int readInput(char *filename)
     char borderState[1000];
     int countRead, length, begin;
     char ch;
-    map<string, int> mymap;
+
     FILE* fp;
 
     fp = fopen(filename, "r");
@@ -58,7 +58,7 @@ int readInput(char *filename)
         sscanf(buffer + begin, "%[^:]:%n", stateItself, &countRead);
         begin += countRead;
         //cout <<"\nEstado: " << i <<" : " << stateItself << " : ";
-        mymap.insert(pair<string, int>(stateItself, i));
+        statesMap.insert(pair<string, int>(stateItself, i));
 
 
         //obtem estados que fazem fronteira ao estado atual
@@ -79,7 +79,7 @@ int readInput(char *filename)
 
     map<string, int>::iterator it;
 
-    for(it = mymap.begin(); it != mymap.end(); it++)
+    for(it = statesMap.begin(); it != statesMap.end(); it++)
     {
         cout <<"\nindice: " << it->first << " dado: " << it->second << endl;
     }
@@ -104,8 +104,8 @@ int readInput(char *filename)
     {
         for(it2 = mygraphinverse[i].begin(); it2 != mygraphinverse[i].end(); it2++)
         {
-            statesBorders[i].push_back(mymap[*it2]);
-            //mymapborders.insert((pair<string, int>(mymap[*it2], i));
+            statesBorders[i].push_back(statesMap[*it2]);
+            //statesMapborders.insert((pair<string, int>(statesMap[*it2], i));
             // cout << *it2 << " ";
 
         }

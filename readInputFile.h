@@ -16,6 +16,7 @@ typedef vector< list<int> > Graph;
 typedef vector< list<string> > GraphInverse;
 
 extern Graph statesBorders;
+extern map<string, int> statesMap;
 
 int readInput(char *filename);
 void makeNullString(char *str);
