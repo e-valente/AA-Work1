@@ -1,5 +1,10 @@
 #include "readInputFile.h"
+Graph statesBorders;
 
+map<string, int> statesMap;
+list<int> listColors;
+map<int, string> statesFinalMap;
+map<int, int> statesColored;
 
 int readInput(char *filename)
 {
@@ -59,6 +64,7 @@ int readInput(char *filename)
         begin += countRead;
         //cout <<"\nEstado: " << i <<" : " << stateItself << " : ";
         statesMap.insert(pair<string, int>(stateItself, i));
+        statesFinalMap.insert(pair<int, string>(i, stateItself));
 
 
         //obtem estados que fazem fronteira ao estado atual
@@ -105,7 +111,7 @@ int readInput(char *filename)
         for(it2 = mygraphinverse[i].begin(); it2 != mygraphinverse[i].end(); it2++)
         {
             statesBorders[i].push_back(statesMap[*it2]);
-            //statesMapborders.insert((pair<string, int>(statesMap[*it2], i));
+            //FMapborders.insert((pair<string, int>(statesMap[*it2], i));
             // cout << *it2 << " ";
 
         }
