@@ -92,7 +92,7 @@ int readInput(char *filename)
 
 
     list<string>::iterator it2;
-    for(int j = 0; j < 27; j++)
+    for(int j = 0; j < totalStates; j++)
     {
         for(it2 = mygraphinverse[j].begin(); it2 != mygraphinverse[j].end(); it2++)
         {

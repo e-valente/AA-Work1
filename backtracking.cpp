@@ -9,6 +9,8 @@ extern list<int> listColors;
 extern map<int, string> statesFinalMap;
 extern map<int, int> statesColored;
 
+int attribs;
+
 void setTotalColors()
 {
     for(int i = 0; i < TOTALCOLORS; i++)
@@ -24,6 +26,7 @@ void setStatesNotColored(int totalStates)
 
 int backtrackingSearch()
 {
+    attribs = 0;
     //configura total de cores possiveis
     setTotalColors();
 
@@ -50,6 +53,10 @@ int backtrackingRecursive(int assignment, int state)
 
     for(int color = 0; color < listColors.size(); color++)
     {
+        attribs++;
+
+        if(attribs == LIMIT_ITER)return limit_by_iter;
+
         if(testColorAndState(color, myState))
         {
 
@@ -73,6 +80,8 @@ int backtrackingRecursive(int assignment, int state)
 
 }
 
+
+//fica melhor se fizer randomico
 int getStateNotColored()
 {
     map<int, int>::iterator it;
@@ -84,6 +93,8 @@ int getStateNotColored()
 
     return failure;
 }
+
+
 
 bool testColorAndState(int color, int state)
 {
@@ -125,7 +136,7 @@ void generateOutputFile()
     {
 
         it2 = statesFinalMap.find(it->first);
-       // cout <<it2->second <<": " << colors[it->second] << "."<< endl;
+        // cout <<it2->second <<": " << colors[it->second] << "."<< endl;
         myOutputFile <<it2->second <<": " << colors[it->second] << "."<< endl;
 
     }
@@ -133,5 +144,9 @@ void generateOutputFile()
     myOutputFile.close();
 }
 
+int getAttribs()
+{
+    return attribs;
+}
 
 

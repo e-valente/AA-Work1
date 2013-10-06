@@ -15,6 +15,8 @@ using namespace std;
 #define TOTALCOLORS 4
 #define success 1
 #define failure -1
+#define limit_by_iter -2
+#define LIMIT_ITER 10000000
 
 void setTotalColors();
 void setStatesNotColored(int totalStates);
@@ -23,4 +25,5 @@ int backtrackingSearch();
 int backtrackingRecursive(int assignment, int state);
 bool testColorAndState(int color, int state);
 void generateOutputFile();
+int getAttribs();
 #endif // BACKTRACKING_H
