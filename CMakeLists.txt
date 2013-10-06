@@ -7,7 +7,7 @@ project (AA-Work1)
 
 # Add executable called "helloDemo" that is built from the source files 
 # "demo.cxx" and "demo_b.cxx". The extensions are automatically found. 
-add_executable (aa1  readInputFile.cpp main.cpp) 
+add_executable (aa1  readInputFile.cpp backtracking.cpp main.cpp) 
 
 # Link the executable to the Hello library. 
 #target_link_libraries (helloDemo Hello) 
