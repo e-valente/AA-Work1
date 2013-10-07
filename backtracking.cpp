@@ -9,20 +9,11 @@ extern list<int> listColors;
 extern map<int, string> statesFinalMap;
 extern map<int, int> statesColored;
 
+vector<vector<int> > colorsAvailable;
+
 int attribs;
 
-void setTotalColors()
-{
-    for(int i = 0; i < TOTALCOLORS; i++)
-        listColors.push_back(i);
-}
 
-
-void setStatesNotColored(int totalStates)
-{
-    for(int i = 0; i < totalStates; i++)
-        statesColored.insert(pair<int, int>(i, -1));
-}
 
 int backtrackingSearch(int type)
 {
@@ -33,12 +24,30 @@ int backtrackingSearch(int type)
     //configura total de estados nao pintados
     setStatesNotColored(statesFinalMap.size());
 
+    //backtraking com verificacao adiante
+    if(type == BK2)
+    {
+        //aloca linhas
+        colorsAvailable.resize(statesMap.size());
+
+        for(int i = 0; i < statesMap.size(); i++)
+        {
+            colorsAvailable[i].resize(TOTALCOLORS);
+            for(int j = 0 ; j < TOTALCOLORS; j++)
+            {
+                //para o i-esimo estado, teremos
+                //a cor j disponivel
+                colorsAvailable[i][j] = 1;
+            }
+        }
+    }
+
     return backtrackingRecursive(type);
 }
 
 int backtrackingRecursive(int type)
 {
-    int myState, result;
+    int myState, myColor, result;
 
     //se a atribuicao é completa, temos uma solucao
     if(getStateNotColored() == failure) return success;
@@ -51,32 +60,126 @@ int backtrackingRecursive(int type)
     //para cada elemento do dominino (cor)
     map<int, int>::iterator it;
 
-    for(int color = 0; color < listColors.size(); color++)
+    //backtracking padrao
+    if(type == BK1)
     {
-        attribs++;
-
-        if(attribs == LIMIT_ITER)return limit_by_iter;
-
-        if(testColorAndState(color, myState))
+        for(myColor = 0; myColor < listColors.size(); myColor++)
         {
+            attribs++;
 
-            //pinta o estado state de cor color
-            //atualiza o estados pintado
-            it = statesColored.find(myState);
-            it->second = color;
+            if(attribs == LIMIT_ITER)return limit_by_iter;
 
-            result = backtrackingRecursive(type);
-            if (result != failure) return result;
 
-            //remove var=value
-            it->second = -1;
+            if(testColorAndState(myColor, myState))
+            {
+
+                //pinta o estado state de cor color
+                //atualiza o estados pintado
+                it = statesColored.find(myState);
+                it->second = myColor;
+
+                result = backtrackingRecursive(type);
+                if (result != failure) return result;
+
+                //remove var=value
+                it->second = -1;
+
+            }
 
         }
 
-
+        return failure;
     }
 
+    //backtraking com verificacao adiante
+    if(type == BK2)
+    {
+        attribs++;
+        myState = getStateNotColored();
+
+        //obtem cor disponivel
+
+        for(int i = 0; i < TOTALCOLORS; i++)
+        {
+            if(attribs == LIMIT_ITER)return limit_by_iter;
+            myColor = getAvailableDomainElement(myState, i);
+
+
+            if(myColor < 0) return failure;
+
+            //pinta estado e atualiza a lista de
+            //restricoes dos estados vizinhos
+            drawAndUpdateStates(myColor, myState);
+
+            result = backtrackingRecursive(type);
+
+            if (result != failure) return result;
+
+            //desfaz a pintura e atualiza estados
+            // cout <<"vou desfazer estado e cor: " << myState << " " <<myColor << endl;
+            undrawAndUpdateStates(myColor, myState);
+        }
+
+
+        return failure;
+    }
+
+
     return failure;
+
+
+
+
+}
+
+void drawAndUpdateStates(int myColor, int myState)
+{
+    //pinta estado
+    map<int, int>::iterator it;
+
+    it = statesColored.find(myState);
+    it->second = myColor;
+
+    //atualiza lista de cores (nenhuma cor possivel) para o estado
+    //que esta sendo pintado
+    for(int i = 0; int j = 0; j++)
+    {
+        colorsAvailable[myState][i] = 0;
+    }
+
+    list<int>::iterator it2;
+
+    for(it2 = statesBorders[myState].begin(); it2 != statesBorders[myState].end(); it2++)
+    {
+        colorsAvailable[*it2][myColor] = 0;
+    }
+
+
+}
+
+
+void undrawAndUpdateStates(int myColor, int myState)
+{
+    //pinta estado
+    map<int, int>::iterator it;
+
+    it = statesColored.find(myState);
+    it->second = -1;
+
+    //atualiza lista de cores deixa a cor disponivel para o estado
+    //que esta sendo pintado
+    for(int i = 0; int j = 0; j++)
+    {
+        colorsAvailable[myState][i] = 1;
+    }
+
+    list<int>::iterator it2;
+
+    for(it2 = statesBorders[myState].begin(); it2 != statesBorders[myState].end(); it2++)
+    {
+        colorsAvailable[*it2][myColor] = 1;
+    }
+
 
 }
 
@@ -112,6 +215,38 @@ bool testColorAndState(int color, int state)
     return true;
 
 }
+
+void setTotalColors()
+{
+    for(int i = 0; i < TOTALCOLORS; i++)
+        listColors.push_back(i);
+}
+
+
+void setStatesNotColored(int totalStates)
+{
+    for(int i = 0; i < totalStates; i++)
+        statesColored.insert(pair<int, int>(i, -1));
+}
+
+
+//retona a nColor-esima cor disponivel
+int getAvailableDomainElement(int state, int nColor)
+{
+
+    int count = 0;
+
+    for(int i = 0; i < TOTALCOLORS; i ++)
+        if(colorsAvailable[state][i]  == 1 )
+        {
+            if(count == nColor)return i;
+            count++;
+        }
+
+    return -1;
+}
+
+
 
 
 void generateOutputFile()

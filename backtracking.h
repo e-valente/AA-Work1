@@ -32,4 +32,8 @@ int backtrackingRecursive(int type);
 bool testColorAndState(int color, int state);
 void generateOutputFile();
 int getAttribs();
+
+int getAvailableDomainElement(int state, int nColor);
+void drawAndUpdateStates(int myColor, int myState);
+void undrawAndUpdateStates(int myColor, int myState);
 #endif // BACKTRACKING_H
