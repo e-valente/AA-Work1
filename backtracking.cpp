@@ -338,6 +338,8 @@ void generateOutputFile()
     }
 
     myOutputFile.close();
+
+    cout <<"Arquivo gerado: saida.txt\n";
 }
 
 int getAttribs()
