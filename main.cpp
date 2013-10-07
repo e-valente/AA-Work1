@@ -28,7 +28,11 @@ int main(int argc, char *argv[])
     //BK2 - Backtracking com verificacao adiante
     //BK3 - Backtracking com verificacao adiante e MRV
     //BK4 - Backtracking com verificacao adiante, MRV e grau
-    ret = backtrackingSearch(bktype);
+    if(bktype > 0 && bktype < 5) ret = backtrackingSearch(bktype);
+    else{
+        printUsage(argv[0]);
+        exit(1);
+    }
 
     printResult(ret);
 
