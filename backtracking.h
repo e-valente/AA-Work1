@@ -9,6 +9,7 @@
 #include <string.h>
 #include <string>
 #include <map>
+#include <stack>
 
 using namespace std;
 
@@ -19,14 +20,19 @@ using namespace std;
 #define LIMIT_ITER 10000000
 
 //types of backtracking
+
+//backtracking normal, sem poda
 #define BK1 1
+//backtracking com verificacao adiante
 #define BK2 2
+//backtracking com verificacao adiante E
+//com heuristica de minimos valores remanescentes
 #define BK3 3
 #define BK4 4
 
 void setTotalColors();
 void setStatesNotColored(int totalStates);
-int getStateNotColored();
+int getStateNotColored(int type);
 int backtrackingSearch(int type);
 int backtrackingRecursive(int type);
 bool testColorAndState(int color, int state);

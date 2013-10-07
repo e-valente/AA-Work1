@@ -11,8 +11,10 @@ extern map<int, int> statesColored;
 
 vector<vector<int> > colorsAvailable;
 
-int attribs;
 
+//variavel global pra contar
+//o total de atribuicoes
+int attribs;
 
 
 int backtrackingSearch(int type)
@@ -24,8 +26,10 @@ int backtrackingSearch(int type)
     //configura total de estados nao pintados
     setStatesNotColored(statesFinalMap.size());
 
-    //backtraking com verificacao adiante
-    if(type == BK2)
+    //inicia o ultimo estado pintado
+
+    //backtracking com verificacao adiante
+    if(type == BK2 || type == BK3)
     {
         //aloca linhas
         colorsAvailable.resize(statesMap.size());
@@ -50,11 +54,13 @@ int backtrackingRecursive(int type)
     int myState, myColor, result;
 
     //se a atribuicao é completa, temos uma solucao
-    if(getStateNotColored() == failure) return success;
+    if(getStateNotColored(type) == failure) return success;
 
     //escolher um estado que nao foi atribuido
     //e guardar a variavel
-    myState = getStateNotColored();
+
+
+    myState = getStateNotColored(type);
 
 
     //para cada elemento do dominino (cor)
@@ -92,10 +98,10 @@ int backtrackingRecursive(int type)
     }
 
     //backtraking com verificacao adiante
-    if(type == BK2)
+    if(type == BK2 || type == BK3)
     {
         attribs++;
-        myState = getStateNotColored();
+        myState = getStateNotColored(type);
 
         //obtem cor disponivel
 
@@ -110,6 +116,8 @@ int backtrackingRecursive(int type)
             //pinta estado e atualiza a lista de
             //restricoes dos estados vizinhos
             drawAndUpdateStates(myColor, myState);
+
+
 
             result = backtrackingRecursive(type);
 
@@ -185,16 +193,69 @@ void undrawAndUpdateStates(int myColor, int myState)
 
 
 //fica melhor se fizer randomico
-int getStateNotColored()
+int getStateNotColored(int type)
 {
     map<int, int>::iterator it;
 
-    for(it = statesColored.begin(); it != statesColored.end(); it++)
-        //se o estao nao foi pintado, entao sera retornado
-        if(it->second == -1) return it->first;
+    if(type == BK1 || type == BK2)
+    {
+
+        for(it = statesColored.begin(); it != statesColored.end(); it++)
+        {   //se o estao nao foi pintado, entao sera retornado
+            if(it->second == -1)
+                return it->first;
+        }
+
+        return failure;
+    }
 
 
-    return failure;
+    else
+    {
+
+        int candidateState, count, highValue;
+        list<int>::iterator it2;
+
+        //primeira iteracao
+        //retornamos estado zero
+        if(attribs == 0) return 0;
+
+        highValue = -1;
+        candidateState = -1;
+
+
+
+        //pra cada estado nao pintado, verificaremos qual
+        //deles tem mais vizinhos pintados. O que tiver mais
+        //sera retornado
+
+        for(int i = 0; i < statesMap.size(); i++)
+        {
+            count = 0;
+            //estado nao pintado
+            if(statesColored[i] == -1)
+            {
+                //vericaremos todos seus vizinhos
+                for(it2 = statesBorders[i].begin(); it2 != statesBorders[i].end(); it2++)
+                {
+                    //o que tiver mais vizinho pintado sera retornado
+                    if(statesColored[*it2] != -1)count++;
+
+                }
+
+                if(count > highValue)
+                {
+                    highValue = count;
+                    candidateState = i;
+                }
+
+            }
+        }
+
+
+        if(candidateState == -1) return failure;
+        else return candidateState;
+    }
 }
 
 

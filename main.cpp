@@ -13,11 +13,18 @@ int main()
     //gera o grafo
     readInput(inputFilename);
 
-    ret = backtrackingSearch(BK2);
+    ret = backtrackingSearch(BK3);
 
-    if(ret == limit_by_iter) cout <<"Numero maximo de atribuicoes alcancada: " << LIMIT_ITER << endl;
+    cout <<"Mapa: " << inputFilename << endl;
+
+    if(ret == limit_by_iter)
+    {
+        cout <<"Numero maximo de atribuicoes alcancada: " << LIMIT_ITER << endl;
+    }
     else cout <<"Total de atribuicoes: " << getAttribs() << endl;
 
+
+    //escreve a saida no arquivo
     generateOutputFile();
 
 
