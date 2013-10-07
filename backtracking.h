@@ -18,11 +18,17 @@ using namespace std;
 #define limit_by_iter -2
 #define LIMIT_ITER 10000000
 
+//types of backtracking
+#define BK1 1
+#define BK2 2
+#define BK3 3
+#define BK4 4
+
 void setTotalColors();
 void setStatesNotColored(int totalStates);
 int getStateNotColored();
-int backtrackingSearch();
-int backtrackingRecursive(int assignment, int state);
+int backtrackingSearch(int type);
+int backtrackingRecursive(int type);
 bool testColorAndState(int color, int state);
 void generateOutputFile();
 int getAttribs();

@@ -83,25 +83,27 @@ int readInput(char *filename)
 
     }
 
-    map<string, int>::iterator it;
+     list<string>::iterator it2;
 
-    for(it = statesMap.begin(); it != statesMap.end(); it++)
-    {
-        cout <<"\nindice: " << it->first << " dado: " << it->second << endl;
-    }
+//    map<string, int>::iterator it;
+
+//    for(it = statesMap.begin(); it != statesMap.end(); it++)
+//    {
+//        cout <<"\nindice: " << it->first << " dado: " << it->second << endl;
+//    }
 
 
-    list<string>::iterator it2;
-    for(int j = 0; j < totalStates; j++)
-    {
-        for(it2 = mygraphinverse[j].begin(); it2 != mygraphinverse[j].end(); it2++)
-        {
-            cout << *it2 << " ";
 
-        }
+//    for(int j = 0; j < totalStates; j++)
+//    {
+//        for(it2 = mygraphinverse[j].begin(); it2 != mygraphinverse[j].end(); it2++)
+//        {
+//            cout << *it2 << " ";
 
-        cout <<"\n";
-    }
+//        }
+
+//        cout <<"\n";
+//    }
 
 
     //coloca estados fronteiras no mapa
@@ -119,20 +121,20 @@ int readInput(char *filename)
     }
 
 
-    cout <<"mapas de fronteiras: \n";
-    list<int>::iterator it3;
+//   cout <<"mapas de fronteiras: \n";
+//    list<int>::iterator it3;
 
-    for(int i = 0; i < totalStates; i++)
-    {
-        for(it3 = statesBorders[i].begin(); it3 != statesBorders[i].end(); it3++)
-        {
-            cout <<*it3<< " ";
+//    for(int i = 0; i < totalStates; i++)
+//    {
+//        for(it3 = statesBorders[i].begin(); it3 != statesBorders[i].end(); it3++)
+//        {
+//            cout <<*it3<< " ";
 
-        }
+//        }
 
-        cout <<"\n";
+//        cout <<"\n";
 
-    }
+//    }
 
 
     fclose(fp);

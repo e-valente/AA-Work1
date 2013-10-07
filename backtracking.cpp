@@ -24,7 +24,7 @@ void setStatesNotColored(int totalStates)
         statesColored.insert(pair<int, int>(i, -1));
 }
 
-int backtrackingSearch()
+int backtrackingSearch(int type)
 {
     attribs = 0;
     //configura total de cores possiveis
@@ -33,10 +33,10 @@ int backtrackingSearch()
     //configura total de estados nao pintados
     setStatesNotColored(statesFinalMap.size());
 
-    return backtrackingRecursive(0, 0);
+    return backtrackingRecursive(type);
 }
 
-int backtrackingRecursive(int assignment, int state)
+int backtrackingRecursive(int type)
 {
     int myState, result;
 
@@ -65,7 +65,7 @@ int backtrackingRecursive(int assignment, int state)
             it = statesColored.find(myState);
             it->second = color;
 
-            result = backtrackingRecursive(assignment, 0);
+            result = backtrackingRecursive(type);
             if (result != failure) return result;
 
             //remove var=value
