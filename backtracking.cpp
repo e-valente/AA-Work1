@@ -14,7 +14,7 @@ vector<vector<int> > colorsAvailable;
 
 //variavel global pra contar
 //o total de atribuicoes
-int attribs;
+long long int attribs;
 
 
 int backtrackingSearch(int type)

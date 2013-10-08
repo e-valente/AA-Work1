@@ -17,7 +17,7 @@ using namespace std;
 #define success 1
 #define failure -1
 #define limit_by_iter -2
-#define LIMIT_ITER 10000000
+#define LIMIT_ITER 1000000
 
 //types of backtracking
 
